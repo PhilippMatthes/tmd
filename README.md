@@ -1,10 +1,9 @@
 # Model Download
 
-|Model ID|Type|Pooling|Optimizer|Optimization|Block Depth|Learning Rate|Validation Accuracy (%)|Download|
-|-|-|-|-|-|-|-|-|-|-|
+| Model ID | Type | Pooling | Optimizer | Optimization | Depth | LR | Val. Acc. (%) | Download |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
 |4ad2e7|1d ResNetV1|max|adam|Pruning & Separable Layers|Depth|0.010|84.91|[Google Drive](https://drive.google.com/file/d/1-JH0K0vsLOuqiTp2PAIPoLXRUyvvk36p/view?usp=sharing)|
 |4ad2e7|1d ResNetV1|max|adam|Pruning|Depth|0.010|84.38|[Google Drive](https://drive.google.com/file/d/1Dj7Op4LArlK0gnkGpqvbj6uetNlxNSL3/view?usp=sharing)|
-|-|-|-|-|-|-|-|-|-|-|
 |4ad2e7|1d ResNetV1|max|adam|-|2|0.010|84.34|[Google Drive](https://drive.google.com/file/d/1-CyUZTibwya5l2j2l_StHtYe_u2tOJ04/view?usp=sharing)|
 |6af8a1|1d ResNetV1|max|adam|-|4|0.010|84.18|[Google Drive](https://drive.google.com/file/d/1-LkSVciKyGQkO6YyAqHazqArNhfgc5U3/view?usp=sharing)|
 |7cfd66|1d ResNetV1|max|sgd|-|2|0.100|84.18|[Google Drive](https://drive.google.com/file/d/1-8kybhtQut8Mz-6zz0UfFssz_t_yqCGQ/view?usp=sharing)|
