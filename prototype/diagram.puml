@@ -1,0 +1,117 @@
+@startuml
+﻿
+' STYLE START
+hide empty members
+skinparam monochrome true
+skinparam nodesep 30
+skinparam ranksep 10
+' STYLE END
+
+
+class "Classifier" as Classifier << (C, DarkSeaGreen) >> {
+  -delegate : Delegate?
+  -interpreter : Interpreter
+  -input : Tensor
+  -output : Tensor
+  ~init(modelFileName:accelerator:threads:)
+  -shape(input:)
+  ~classify(input:)
+}
+class "Pipeline" as Pipeline << (C, DarkSeaGreen) >> {
+  -config : Config
+  -source : SensorSource
+  -sensorPreprocessors : [Sensor: [Preprocessor]]
+  -classifier : Classifier?
+  -inferenceTimer : Timer?
+  ~sensorWindows : [Sensor: Window]
+  ~predictions : [Classifier.Prediction]?
+  ~init(config:)
+  -infer()
+  ~load(classifierWith:andAccelerator:)
+  ~run()
+  ~stop()
+}
+class "Window" as Window << (C, DarkSeaGreen) >> {
+  ~values : [Parameter]
+  ~init(maxLength:values:)
+  ~push(_:)
+}
+class "SensorSource" as SensorSource << (C, DarkSeaGreen) >> {
+  -sampleTimer : Timer?
+  -sampleInterval : TimeInterval
+  ~init(sampleInterval:)
+  -manager : CMMotionManager
+  ~startListening(callback:)
+  ~stopListening()
+}
+class "Preprocessor" as Preprocessor << (P, GoldenRod) protocol >> {
+  ~transform(_:)
+}
+class "MovingAverage" as MovingAverage << (C, DarkSeaGreen) >> {
+  ~period : Int
+  ~init(period:)
+  ~transform(_:)
+}
+class "ConfigPreprocessor" as ConfigPreprocessor << (P, GoldenRod) protocol >> {
+  ~config : Config
+  ~init(config:)
+}
+class "ConfigPreprocessor" as ConfigPreprocessor0 << (X, Orchid) extension >> {
+  init(configFileName:)
+}
+class "PowerTransformer" as PowerTransformer << (C, DarkSeaGreen) >> {
+  ~config : Config
+  ~init(config:)
+  ~transform(_:)
+}
+class "StandardScaler" as StandardScaler << (C, DarkSeaGreen) >> {
+  ~config : Config
+  ~init(config:)
+  ~transform(_:)
+}
+class "Triaxial" as Triaxial << (P, GoldenRod) protocol >> {
+  ~xParam : Parameter
+  ~yParam : Parameter
+  ~zParam : Parameter
+  ~toAndroidFormat()
+}
+
+class "Triaxial" as Triaxial1 << (X, Orchid) extension >> {
+  identity()
+  scale(_:)
+  magnitude()
+  toAndroidFormat()
+}
+class "CMAcceleration" as CMAcceleration << (X, Orchid) extension >> {
+  xParam : Parameter
+  yParam : Parameter
+  zParam : Parameter
+  toAndroidFormat()
+}
+class "CMRotationRate" as CMRotationRate << (X, Orchid) extension >> {
+  xParam : Parameter
+  yParam : Parameter
+  zParam : Parameter
+}
+class "CMMagneticField" as CMMagneticField << (X, Orchid) extension >> {
+  xParam : Parameter
+  yParam : Parameter
+  zParam : Parameter
+}
+MovingAverage ..|> Preprocessor
+ConfigPreprocessor ..|> Preprocessor
+PowerTransformer ..|> ConfigPreprocessor
+StandardScaler ..|> ConfigPreprocessor
+CMAcceleration ..|> Triaxial
+CMRotationRate ..|> Triaxial
+CMMagneticField ..|> Triaxial
+ConfigPreprocessor <.up. ConfigPreprocessor0 : Extension
+Triaxial <.right. Triaxial1 : Extension
+
+Pipeline " " *-up- "1" Classifier
+Pipeline " " o-down- "0..*" Preprocessor
+Pipeline " " o-left- "0..*" SensorSource
+Pipeline " " o-right- "0..*" Window
+SensorSource .up.> Triaxial : <<use>>
+
+@enduml

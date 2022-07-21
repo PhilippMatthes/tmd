@@ -1,0 +1,18 @@
+skinparamCommands:
+  - skinparam monochrome true
+elements:
+  showGenerics: true
+  showExtensions: true
+  exclude:
+    - "ConfigError"
+    - "Sensor"
+relationships:
+  inheritance:
+    label: "Erbt von"
+    exclude:
+      - "Codable"
+      - "ObservableObject"
+      - "Int"
+      - "CustomStringConvertible"
+      - "Hashable"
+      - "Error"
