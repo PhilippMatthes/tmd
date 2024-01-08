@@ -1,8 +1,46 @@
 # Transport Mode Detection for Smartphones
 
+<!--
+This README describes the package. If you publish this package to pub.dev,
+this README's contents appear on the landing page for your package.
 
+For information about how to write a good package README, see the guide for
+[writing package pages](https://dart.dev/guides/libraries/writing-package-pages).
 
-## TFLite Models Download
+For general information about developing packages, see the Dart guide for
+[creating packages](https://dart.dev/guides/libraries/create-library-packages)
+and the Flutter guide for
+[developing packages and plugins](https://flutter.dev/developing-packages).
+-->
+
+TODO: Put a short description of the package here that helps potential users
+know whether this package might be useful for them.
+
+## Features
+
+TODO: List what your package can do. Maybe include images, gifs, or videos.
+
+## Getting started
+
+TODO: List prerequisites and provide or point to information on how to
+start using the package.
+
+## Usage
+
+TODO: Include short and useful examples for package users. Add longer examples
+to `/example` folder.
+
+```dart
+const like = 'sample';
+```
+
+## Additional information
+
+TODO: Tell users more about the package: where to find more information, how to
+contribute to the package, how to file issues, what response they can expect
+from the package authors, and more.
+
+### TFLite Models Download
 
 See `models/` for the best model with three optimizations.
 
@@ -23,7 +61,7 @@ See `models/` for the best model with three optimizations.
 
 All models were trained and evaluated on the SHL dataset. If any of the download links do not work, here is a backup: [Google Drive](https://drive.google.com/file/d/15XombGG_j4ngN7l-tNMKB4WnXqRv6G7o/view?usp=sharing). Please open an issue in this case.
 
-## Citing this Work
+### Citing this Work
 
 ```bibtex
 @inproceedings{matthes2022selecting,
