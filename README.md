@@ -42,7 +42,7 @@ from the package authors, and more.
 
 ### TFLite Models Download
 
-See `models/` for the best model with three optimizations.
+The model in the first row is the model used by default in this library.
 
 | Model ID | Type | Pooling | Optimizer | Optimization | Depth | LR | Val. Acc. (%) | Download |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
