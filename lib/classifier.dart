@@ -1,7 +1,5 @@
-import 'dart:math';
-
 import 'package:tflite_flutter/tflite_flutter.dart';
-import 'package:sensors_plus/sensors_plus.dart';
+import 'package:tmd/classes.dart';
 import 'package:tmd/scaler.dart';
 
 class TmdClassificationResult {
@@ -22,32 +20,20 @@ class TmdClassificationResult {
   });
 }
 
-enum TransportMode {
-  unknown,
-  still,
-  walking,
-  run,
-  bike,
-  car,
-  bus,
-  train,
-  subway,
-}
-
-/// The index of the class mapped to a human readable label.
-final Map<int, TransportMode> _classMapping = {
-  0: TransportMode.unknown,
-  1: TransportMode.still,
-  2: TransportMode.walking,
-  3: TransportMode.run,
-  4: TransportMode.bike,
-  5: TransportMode.car,
-  6: TransportMode.bus,
-  7: TransportMode.train,
-  8: TransportMode.subway,
-};
-
 class TmdClassifier {
+  /// The class mapping.
+  static const _classMapping = {
+    0: TransportMode.unknown,
+    1: TransportMode.still,
+    2: TransportMode.walking,
+    3: TransportMode.run,
+    4: TransportMode.bike,
+    5: TransportMode.car,
+    6: TransportMode.bus,
+    7: TransportMode.train,
+    8: TransportMode.subway,
+  };
+
   /// The TFLite model interpreter.
   final IsolateInterpreter _interpreter;
 
@@ -99,44 +85,17 @@ class TmdClassifier {
     );
   }
 
-  /// Close the TmdClassifier.
-  Future<void> close() async {
-    await _interpreter.close();
-  }
-
   /// Classify the given IMU sensor input.
   Future<TmdClassificationResult?> classify({
-    required List<AccelerometerEvent> accEvents,
-    required List<MagnetometerEvent> magEvents,
-    required List<GyroscopeEvent> gyrEvents,
+    required List<double> accMag,
+    required List<double> magMag,
+    required List<double> gyrMag,
   }) async {
     // We need at least 500 samples.
     // The order must be: [accelerometer, magnetometer, gyro].
-    if (accEvents.length != 500) return null;
-    if (magEvents.length != 500) return null;
-    if (gyrEvents.length != 500) return null;
-
-    List<double> accMag = [];
-    List<double> magMag = [];
-    List<double> gyrMag = [];
-
-    for (var i = 0; i < 500; i++) {
-      accMag.add(sqrt(
-        accEvents[i].x * accEvents[i].x +
-            accEvents[i].y * accEvents[i].y +
-            accEvents[i].z * accEvents[i].z,
-      ));
-      magMag.add(sqrt(
-        magEvents[i].x * magEvents[i].x +
-            magEvents[i].y * magEvents[i].y +
-            magEvents[i].z * magEvents[i].z,
-      ));
-      gyrMag.add(sqrt(
-        gyrEvents[i].x * gyrEvents[i].x +
-            gyrEvents[i].y * gyrEvents[i].y +
-            gyrEvents[i].z * gyrEvents[i].z,
-      ));
-    }
+    if (accMag.length != 500) return null;
+    if (magMag.length != 500) return null;
+    if (gyrMag.length != 500) return null;
 
     // Apply scalers
     for (Scaler scaler in _accScalers) {
@@ -176,5 +135,10 @@ class TmdClassifier {
       classLabel: _classMapping[maxIndex] ?? TransportMode.unknown,
       confidence: maxConfidence,
     );
+  }
+
+  /// Close the TmdClassifier.
+  Future<void> close() async {
+    await _interpreter.close();
   }
 }

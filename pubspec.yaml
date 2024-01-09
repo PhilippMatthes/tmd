@@ -24,16 +24,10 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-  plugin:
-    platforms:
-      android:
-        package: com.example.tmd
-        pluginClass: TmdPlugin
-      ios:
-        pluginClass: TmdPlugin
-
   assets:
+    # Configurations for the Yeo-Johnson Power Transformers and Standard Scalers
     - assets/acc_mag.scaler.json
     - assets/gyr_mag.scaler.json
     - assets/mag_mag.scaler.json
+    # The TFLite model (4ad2e7 pruned, separable layers)
     - assets/model.tflite
