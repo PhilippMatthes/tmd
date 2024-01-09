@@ -167,9 +167,7 @@ class _MyAppState extends State<MyApp> {
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
-            color: i == _modesLog.length - 1
-                ? colorMapping[mode]!.withOpacity(0.1)
-                : colorMapping[mode]!.withOpacity(0.1),
+            color: colorMapping[mode]!.withOpacity(0.2),
           ),
           child: Row(
             children: [
@@ -177,11 +175,11 @@ class _MyAppState extends State<MyApp> {
                 iconMapping[mode],
                 color: colorMapping[mode],
               ),
-              const SizedBox(width: 4),
+              const SizedBox(width: 8),
               Text(
                 mode?.description ?? 'unknown',
-                style: TextStyle(
-                  color: colorMapping[mode],
+                style: const TextStyle(
+                  color: Colors.white,
                   fontSize: 20,
                 ),
               ),
@@ -189,6 +187,7 @@ class _MyAppState extends State<MyApp> {
               Text(
                 '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}',
                 style: const TextStyle(
+                  color: Colors.white,
                   fontSize: 20,
                 ),
               ),
@@ -210,7 +209,7 @@ class _MyAppState extends State<MyApp> {
                 width: 4,
                 margin: const EdgeInsets.only(left: 22, top: 4, bottom: 4),
                 decoration: BoxDecoration(
-                  color: colorMapping[_modesLog[i - 1]]!.withOpacity(0.05),
+                  color: colorMapping[_modesLog[i - 1]]!,
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -220,7 +219,7 @@ class _MyAppState extends State<MyApp> {
                   'for $timediffInS seconds',
                   style: const TextStyle(
                     fontSize: 12,
-                    color: Colors.black,
+                    color: Colors.white,
                   ),
                 ),
               ),
@@ -233,7 +232,8 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          backgroundColor: colorMapping[_currentTransportMode],
+          backgroundColor:
+              colorMapping[_currentTransportMode]!.withOpacity(0.6),
           title: const Text(
             'Detecting transport mode...',
             style: TextStyle(
@@ -242,6 +242,7 @@ class _MyAppState extends State<MyApp> {
             ),
           ),
         ),
+        backgroundColor: Colors.black,
         body: SingleChildScrollView(
           padding: const EdgeInsets.all(24),
           child: Column(children: columnElements),

@@ -1,9 +1,10 @@
 # Transport Mode Detection for Smartphones
 
-TODOS:
-- Turn off sensors when not needed
+TFLite Machine learning models trained for transport mode detection (TMD) on smartphones. This library provides a simple API to use these models in your Flutter app. The models were trained and evaluated on the SHL (Sussex-Huawei-Locomotion) dataset.
 
-## Testing
+![Example App](screenshots/example-app.png)
+
+## Installing
 
 Add this library to your `pubspec.yaml` via GitHub:
 
@@ -11,9 +12,61 @@ Add this library to your `pubspec.yaml` via GitHub:
 dependencies:
   tmd:
     git:
-      url: git://github.com/philippmatthes/tmd.git
+      url: https://github.com/philippmatthes/tmd
       ref: main
 ```
+
+## Example Usage
+
+```dart
+import 'package:tmd/tmd.dart';
+
+void main() async {
+  final tmd = TMD();
+  final stream = await tmd.startListeningForChanges()
+  stream.listen((newMode) {
+    print(newMode); // New transport mode detected
+  });
+}
+```
+
+There is also the option to specify how often the model should be evaluated, and how often the changed transport mode should be cross-checked before reporting the change.
+
+```dart
+import 'package:tmd/tmd.dart';
+
+void main() async {
+  final tmd = TMD();
+  final stream = await tmd.startListeningForChanges(
+    // Notify only if a new transport mode was detected that many
+    // consecutive times. This will improve the stability at the
+    // expense of a less frequent notification.
+    nChangedForNotification: 5,
+    // The inference period defines how often the transport mode
+    // is inferred. This will also affect the notification frequency.
+    // Note that the inference period also impacts the battery life.
+    // It is recommended to not go below 0.5 seconds.
+    inferencePeriod: const Duration(milliseconds: 1000),
+  );
+  stream.listen((newMode) {
+    print(newMode); // New transport mode detected
+  });
+}
+```
+
+## Designed for Low Resource Usage
+
+![Battery Impact](screenshots/profiler.png)
+
+Read our paper to learn more about how we optimized the model for low resource usage: [Selecting Resource-Efficient ML Models for Transport Mode Detection on Mobile Devices](https://ieeexplore.ieee.org/abstract/document/9976004/).
+
+## Known Issues
+
+- Currently, the IMU sensor stream is kept active even when the transport mode detection does not need it.
+- Transport mode "car" may be detected instead of "still" when the smartphone lays flat on the table.
+- The detection may vary between devices depending on the sensor quality and sampling rate.
+
+Please help us improve this library by cross-checking results and reporting any issues you encounter.
 
 ## TFLite Models Download
 
