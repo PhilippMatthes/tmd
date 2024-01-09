@@ -2,7 +2,9 @@
 
 TFLite Machine learning models trained for transport mode detection (TMD) on smartphones. This library provides a simple API to use these models in your Flutter app. The models were trained and evaluated on the SHL (Sussex-Huawei-Locomotion) dataset.
 
-![Example App](screenshots/example-app.png)
+<p align="center">
+<img src="screenshots/example-app.png" height="300">
+</p>
 
 ## Installing
 
